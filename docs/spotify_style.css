@@ -18,7 +18,7 @@ td {
 }
 
 button {
-    margin: 1rem 1rem 0 0;
+    /* margin: 1rem 1rem 0 0; */
     border: 0;
     border-radius: 20px;
     padding: 10px 3rem;
@@ -31,7 +31,7 @@ button {
 }
 
 button:hover {
-    background-color: #1fdf64;
+    background-color: #5ad286;
 }
 
 #logged-in {

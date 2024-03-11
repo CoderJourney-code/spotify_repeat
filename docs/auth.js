@@ -10,7 +10,8 @@
 import { playerFunction } from './app.js';
 
 const clientId = 'ba2eccaff3f14a93bcae1cb349ad3eb5'; // your clientId
-const redirectUrl = 'https://coderjourney-code.github.io/spotify_repeat';        // your redirect URL - must be localhost URL and/or HTTPS
+// const redirectUrl = 'https://coderjourney-code.github.io/spotify_repeat';        // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'http://localhost:8080';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -72,11 +73,10 @@ if (code) {
 // If we have a token, we're logged in, so fetch user data and render logged in template
 if (currentToken.access_token) {
   const userData = await getUserData();
-  // console.log("test before")
+  console.log("Log in complete")
   renderTemplate("main", "logged-in-template", userData);
   // renderTemplate("oauth", "oauth-template", currentToken); //this is the one giving me trouble for the web player. Let's deactivate taht for now.
   
-  // spotifyJunk();
   
 }
 

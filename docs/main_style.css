@@ -1,22 +1,168 @@
-/* .container { 
-     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 10px; 
-     display: flex;
-    align-items: center;
-    justify-content: center; 
-} */
-
 body { 
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    flex-grow: 1;
-    justify-content: space-evenly;
-    align-content: space-around;
+   
+    /* align-items: center; */
+    justify-content: center;
+    background-image: linear-gradient(rgb(27, 90, 27), rgb(1, 28, 8));
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif, Helvetica, sans-serif;
+    color: white;
+}
+
+html {
+    height:100%;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+    /* align-items: center; */
+}
+
+#main_container { 
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+#spotify_components { 
+    display: grid;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    margin-top: 5em;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     /* align-items: center; */
     /* justify-content: center; */
-    background-color: darkslategray;
-    /* align-content: center; */
-    
 }
+
+.spotify_player { 
+    grid-row-start: 1;
+    align-items: center;
+    text-align: center;
+    margin-top: 1em;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+#logged_in { 
+    height: 100%;
+    width: 100%;
+    /* margin: auto; */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    grid-column-gap: 10px;
+    grid-row-start: 1;
+}
+
+img { 
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* grid-row-start: 1; */
+
+}
+
+#playing_controls { 
+    display: grid;
+    /* grid-template-columns: repeat(5, minmax(30px, 1fr)); */
+    align-items: center;
+    text-align: center;
+    /* margin: auto;  */
+    justify-content: center;
+}
+
+#main_player_container { 
+    grid-row-start: 2;
+    align-items: center;
+    text-align: center;
+    align-items: center;
+
+}
+
+
+button { 
+    position: relative;
+    /* width: 15em; */
+    /* padding: 10px 20px;  */
+    text-align: center; 
+    justify-content: center; 
+}
+
+.spotify_controls { 
+    /* left: 25%; */
+    background-color: transparent;
+    width: fit-content;
+    height: fit-content;
+    justify-self: center;
+    align-self: center;
+}
+
+button.spotify_controls img {
+    transition: transform 0.2s ease;
+}
+
+button.spotify_controls:hover img {
+    transform: scale(1.3);
+}
+
+button.spotify_controls:active img{ 
+    opacity: 0.5;
+}
+
+.spotify_controls:hover { 
+    background-color: transparent;
+}
+
+#togglePlay { 
+    grid-column: 3 / 4;
+    grid-row-start: 1;
+}
+
+#fastForward { 
+    grid-column-start: 4;
+    grid-row-start: 1;
+}
+
+#rewind { 
+    grid-column-start: 2;
+    grid-row-start: 1;
+}
+
+#time_grid { 
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    grid-row-start: 3;
+} 
+
+#repeat_buttons {
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-row-start: 4;
+    grid-gap: 10px;
+    text-align: center; 
+    align-content: center;
+    place-items: center;
+} 
+

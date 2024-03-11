@@ -1,7 +1,19 @@
+/*
+TODO: Make it so we have all the controls. 
+TODO: Make it so we can change the volume.
+TODO: Make it so we can change the song.
+TODO: Make it so we can change the song position.
+TODO: Make it so when we log out it kills the player instance
+or close the broswer. 
+TODO: Have fresh token and logout be seperated some more.
+
+*/
+
 export function playerFunction(accessToken) {
     console.log("Web player is ready!")
     let token = accessToken;
     let intervalId = -1;
+    let playing= false;
 
     const player = new Spotify.Player({
         name: 'Web Playback SDK Player',
@@ -45,8 +57,20 @@ export function playerFunction(accessToken) {
     }
 
     document.getElementById('togglePlay').onclick = function() {
-      player.togglePlay();
+        player.togglePlay();
+        const images = ['images/pause_button.png', 'images/play_button2.png']
+        const image = document.getElementById('togglePlayImage');
+        image.src = images[playing ? 1 : 0];
+        playing = !playing;
     };
+
+    document.getElementById('fastForward').onclick = function() {
+        player.nextTrack();
+    }
+
+    document.getElementById('rewind').onclick = function() {
+        player.previousTrack();
+    }
 
 
 
