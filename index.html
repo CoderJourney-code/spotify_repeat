@@ -19,13 +19,13 @@
     <div id="oauth"></div>
     <template id="login">
       <h1>Login to control spotify</h1>
-      <button id="login-button" data-bind-onclick="loginWithSpotifyClick();" class="my_button"> Log in with Spotify </button>
+      <button id="login-button" data-bind-onclick="loginWithSpotifyClick();" class="spotify_button"> Log in with Spotify </button>
     </template>
         <template id="logged-in-template">
           <h3>Logged in as <span data-bind="display_name"></span></h3>
           <!-- <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" /> -->
-          <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();" class="my_button">Refresh Token</button>
-          <button id="logout-button" data-bind-onclick="logoutClick();" class="my_button">Log out</button>
+          <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();" class="spotify_button">Refresh Token</button>
+          <button id="logout-button" data-bind-onclick="logoutClick();" class="spotify_button">Log out</button>
         </template>
 
     <div id="spotify_components" class="container">
@@ -33,6 +33,8 @@
         <h1 id="spotify_player">Spotify Player</h1>
       </div>
       <div class="container" id="main_player_container">
+        <img id="current-track"/>
+        <h4 id="current-track-name"></h4>
         <div class="container" id="playing_controls">
           <button id="togglePlay" class="spotify_controls"><img id="togglePlayImage" src="images/play_button2.png" alt="Play button"></button>
           <button id="fastForward" class="spotify_controls"><img id="fastForwardImage" src="images/fast_forward.png" alt="Fast forward"></button>
@@ -44,8 +46,8 @@
           <input type="text" id="end_time" value="2:15" placeholder="2:00" class="form-control">
       </div>
       <div class="container" id="repeat_buttons">
-        <button id="repeat_on" class="my_button">Repeat on</button>
-        <button id="repeat_off" class="my_button">Repeat off</button>
+        <button id="repeat_on" class="spotify_button">Repeat on</button>
+        <button id="repeat_off" class="spotify_button">Repeat off</button>
       </div>
     </div>
   </div>
