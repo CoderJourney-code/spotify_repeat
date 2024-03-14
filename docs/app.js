@@ -42,15 +42,6 @@ export function cleanupPlayer() {
 let cur_song = null;
 
 
-let start_time, end_time;
-
-function grabTimes() {
-    start_time = document.getElementById('start_time').value;
-    end_time = document.getElementById('end_time').value;
-}
-
-// Call grabTimes every 500 milliseconds
-setInterval(grabTimes, 500);
 
 export function playerFunction(accessToken) {
     console.log("Web player is ready!")
@@ -137,6 +128,29 @@ export function playerFunction(accessToken) {
         
     }
 
+    document.getElementById("save_song").onclick = function() {
+        player.getCurrentState().then(state => {
+            let trackId = state.track_window.current_track.id;
+            let startTime = document.getElementById('start_time').value;
+            let endTime = document.getElementById('end_time').value;
+
+            let trackData = {
+                start_time: startTime,
+                end_time: endTime
+            };
+            localStorage.setItem(trackId, JSON.stringify(trackData));
+        });
+    }
+
+    function trackSetElements() { 
+        let trackId = cur_song;
+        let trackData = JSON.parse(localStorage.getItem(trackId));
+        if(trackData) {
+            document.getElementById('start_time').value = trackData.start_time;
+            document.getElementById('end_time').value = trackData.end_time;
+        }
+    }
+
     player.addListener('player_state_changed', imageManipulation);
 
     function imageManipulation(state) {
@@ -152,6 +166,7 @@ export function playerFunction(accessToken) {
         let before_song = cur_song;
         cur_song = state.track_window.current_track.id;
         if(cur_song != before_song) {
+            trackSetElements();
             colorjs.prominent(cur_image, {amount: 6, group: 30, sample: 5}).then(color => {
                 drawCanvas(color);});
         }

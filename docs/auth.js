@@ -10,8 +10,8 @@
 import { playerFunction, cleanupPlayer } from './app.js';
 
 const clientId = 'ba2eccaff3f14a93bcae1cb349ad3eb5'; // your clientId
-// const redirectUrl = 'https://coderjourney-code.github.io/spotify_repeat';        // your redirect URL - must be localhost URL and/or HTTPS
-const redirectUrl = 'http://localhost:8080';        // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'https://coderjourney-code.github.io/spotify_repeat';        // your redirect URL - must be localhost URL and/or HTTPS
+// const redirectUrl = 'http://localhost:8080';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
