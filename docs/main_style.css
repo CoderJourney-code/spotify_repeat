@@ -32,18 +32,17 @@ body, html {
     align-items: center;
 }
 
+
 img#current-track {
     width: 20rem;
     height: 20rem;
-    border: none;
+    border: 0px; 
     margin-left: auto;
     margin-right: auto; 
     align-items: center;
     justify-content: center;
     text-align: center; 
-    /* grid-row-start: 1; */
 }
-
 .container {
     display: grid;
     width: 100%;
@@ -107,6 +106,7 @@ img {
     align-items: center;
     justify-content: center;
     text-align: center;
+    
     /* grid-row-start: 1; */
 
 }
