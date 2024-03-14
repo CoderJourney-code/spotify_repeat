@@ -7,7 +7,7 @@
  * https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
  */
 
-import { playerFunction } from './app.js';
+import { playerFunction, cleanupPlayer } from './app.js';
 
 const clientId = 'ba2eccaff3f14a93bcae1cb349ad3eb5'; // your clientId
 // const redirectUrl = 'https://coderjourney-code.github.io/spotify_repeat';        // your redirect URL - must be localhost URL and/or HTTPS
@@ -21,6 +21,11 @@ const tokenEndpoint = "https://accounts.spotify.com/api/token";
 // console.log(scope)
 const scope = 'streaming user-read-email';
 
+
+function print(pass) { 
+  console.log(pass);
+
+}
 
 function spotifyJunk() { 
 
@@ -85,21 +90,56 @@ if (!currentToken.access_token) {
   renderTemplate("main", "login");
 }
 
+const generateRandomString = (length) => {
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const values = crypto.getRandomValues(new Uint8Array(length));
+  return values.reduce((acc, x) => acc + possible[x % possible.length], "");
+}
+
+const code_verifier  = generateRandomString(64);
+window.localStorage.setItem('code_verifier', code_verifier);
+// const code_challenge_base64 = await pkce_challenge_from_verifier(code_verifier);
+
+async function sha256(plain) { 
+  // returns promise ArrayBuffer
+  const encoder = new TextEncoder();
+  const data = encoder.encode(plain);
+  return window.crypto.subtle.digest('SHA-256', data);
+}
+
+
+const base64encode = (input) => {
+  return btoa(String.fromCharCode(...new Uint8Array(input)))
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
+}
+
+async function pkce_challenge_from_verifier(v) {
+  const hashed = await sha256(v);
+  const base64encoded = base64encode(hashed);
+  return base64encoded;
+}
+
+
+
 async function redirectToSpotifyAuthorize() {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const randomValues = crypto.getRandomValues(new Uint8Array(64));
   const randomString = randomValues.reduce((acc, x) => acc + possible[x % possible.length], "");
 
-  const code_verifier = randomString;
-  const data = new TextEncoder().encode(code_verifier);
-  const hashed = await crypto.subtle.digest('SHA-256', data);
+  // const code_verifier = randomString;
+  // window.localStorage.setItem('code_verifier', code_verifier);
+  // const data = new TextEncoder().encode(code_verifier);
+  // const hashed = await crypto.subtle.digest('SHA-256', data);
 
-  const code_challenge_base64 = btoa(String.fromCharCode(...new Uint8Array(hashed)))
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
-
-  window.localStorage.setItem('code_verifier', code_verifier);
+  // const code_challenge_base64 = btoa(String.fromCharCode(...new Uint8Array(hashed)))
+  //   .replace(/=/g, '')
+  //   .replace(/\+/g, '-')
+  //   .replace(/\//g, '_');
+  const code_challenge_base64 = await pkce_challenge_from_verifier(code_verifier);
+  // code_challenge_base64 = await pkce_challenge_from_verifier(code_verifier);
+  
 
   const authUrl = new URL(authorizationEndpoint)
   const params = {
@@ -171,6 +211,7 @@ async function loginWithSpotifyClick() {
 }
 
 async function logoutClick() {
+  cleanupPlayer();
   localStorage.clear();
   window.location.href = redirectUrl;
 }

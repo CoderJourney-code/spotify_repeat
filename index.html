@@ -11,7 +11,7 @@
 </head>
 
 <body>
-
+  <canvas id="canvas"></canvas>
   <div class="container" id="main_container">
     <div id="logged_in" class="container">
       <div id="main"></div>
@@ -19,13 +19,13 @@
     <div id="oauth"></div>
     <template id="login">
       <h1>Login to control spotify</h1>
-      <button id="login-button" data-bind-onclick="loginWithSpotifyClick();" class="spotify_button"> Log in with Spotify </button>
+      <button ontouchstart="" id="login-button" data-bind-onclick="loginWithSpotifyClick();" class="spotify_button"> Log in with Spotify </button>
     </template>
         <template id="logged-in-template">
           <h3>Logged in as <span data-bind="display_name"></span></h3>
           <!-- <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" /> -->
-          <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();" class="spotify_button">Refresh Token</button>
-          <button id="logout-button" data-bind-onclick="logoutClick();" class="spotify_button">Log out</button>
+          <button ontouchstart="" id="refresh-token-button" data-bind-onclick="refreshTokenClick();" class="spotify_button">Refresh Token</button>
+          <button ontouchstart="" id="logout-button" data-bind-onclick="logoutClick();" class="spotify_button">Log out</button>
         </template>
 
     <div id="spotify_components" class="container">
@@ -34,11 +34,12 @@
       </div>
       <div class="container" id="main_player_container">
         <img id="current-track"/>
+        
         <h4 id="current-track-name"></h4>
         <div class="container" id="playing_controls">
-          <button id="togglePlay" class="spotify_controls"><img id="togglePlayImage" src="images/play_button2.png" alt="Play button"></button>
-          <button id="fastForward" class="spotify_controls"><img id="fastForwardImage" src="images/fast_forward.png" alt="Fast forward"></button>
-          <button id="rewind" class="spotify_controls"><img id="rewindImage" src="images/rewind.png" alt="Rewind"></button>
+          <button ontouchstart="" id="togglePlay" class="spotify_controls"><img id="togglePlayImage" src="images/play_button2.png" alt="Play button"></button>
+          <button ontouchstart="" id="fastForward" class="spotify_controls"><img id="fastForwardImage" src="images/fast_forward.png" alt="Fast forward"></button>
+          <button ontouchstart="" id="rewind" class="spotify_controls"><img id="rewindImage" src="images/rewind.png" alt="Rewind"></button>
         </div>
       </div>
       <div class="container" id="time_grid">
@@ -46,8 +47,8 @@
           <input type="text" id="end_time" value="2:15" placeholder="2:00" class="form-control">
       </div>
       <div class="container" id="repeat_buttons">
-        <button id="repeat_on" class="spotify_button">Repeat on</button>
-        <button id="repeat_off" class="spotify_button">Repeat off</button>
+        <button ontouchstart="" id="repeat_on" class="spotify_button">Repeat on</button>
+        <button ontouchstart="" id="repeat_off" class="spotify_button">Repeat off</button>
       </div>
     </div>
   </div>
@@ -56,7 +57,7 @@
   <script src="docs/auth.js" type="module"></script>
   <script src="docs/app.js" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+  <script src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script>
 </body>
 
 </html>
