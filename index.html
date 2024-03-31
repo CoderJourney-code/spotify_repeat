@@ -8,6 +8,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="docs/spotify_style.css">
   <link rel="stylesheet" href="docs/main_style.css">
+  <!-- <script type="module" src="my_firebase/firebase_auth.js"></script> -->
+  <!-- <script type="module" src="my_firebase/firebase_deal.js"></script> -->
 </head>
 
 <body>
@@ -18,11 +20,11 @@
     </div>
     <div id="oauth"></div>
     <template id="login">
-      <h1>Login to control spotify</h1>
+      <h3>Login to control spotify</h3>
       <button ontouchstart="" id="login-button" data-bind-onclick="loginWithSpotifyClick();" class="spotify_button"> Log in with Spotify </button>
     </template>
         <template id="logged-in-template">
-          <h3>Logged in as <span data-bind="display_name"></span></h3>
+          <h5>Logged in as <span data-bind="display_name"></span></h5>
           <!-- <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" /> -->
           <button ontouchstart="" id="refresh-token-button" data-bind-onclick="refreshTokenClick();" class="spotify_button">Refresh Token</button>
           <button ontouchstart="" id="logout-button" data-bind-onclick="logoutClick();" class="spotify_button">Log out</button>
@@ -30,14 +32,19 @@
 
     <div id="spotify_components" class="container">
       <div class="spotify_player">
-        <h1 id="spotify_player">Spotify Player</h1>
+        <h4 id="spotify_player">Spotify Player</h4>
       </div>
       <div class="container" id="main_player_container">
         <div class="image-container">
           <img id="current-track"/>
         </div>
         
-        <h4 id="current-track-name"></h4>
+        <h6 id="current-track-name"></h6>
+        <div class="container" id="slider_container">
+          <span id="current-time">0:00</span>
+          <input type="range" id="audio-slider" min="0" max="100" step="1">
+          <span id="duration-time">0:00</span>
+        </div>
         <div class="container" id="playing_controls">
           <button ontouchstart="" id="togglePlay" class="spotify_controls"><img id="togglePlayImage" src="images/play_button2.png" alt="Play button"></button>
           <button ontouchstart="" id="fastForward" class="spotify_controls"><img id="fastForwardImage" src="images/fast_forward.png" alt="Fast forward"></button>
@@ -59,6 +66,7 @@
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
   <script src="docs/auth.js" type="module"></script>
   <script src="docs/app.js" type="module"></script>
+  <!-- <script type="module" src="my_firebase/firebase_deal.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script>
 </body>

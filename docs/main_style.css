@@ -10,10 +10,20 @@ body, html {
     /* background-size: cover; */
     height: 100%;
     width: 100%;
+    max-height: 100%;
     margin: 0;
     padding: 0;
     font-family: Georgia, 'Times New Roman', Times, serif, Helvetica, sans-serif;
     color: white;
+}
+
+h6 { 
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+
 }
 
 #canvas { 
@@ -22,6 +32,19 @@ body, html {
     position: absolute;
     display: block;
     z-index: -1;
+}
+
+#slider_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    
+}
+
+#audio-slider { 
+    width: 100%;
 }
 
 #main, #oath { 
@@ -34,8 +57,8 @@ body, html {
 
 
 img#current-track {
-    width: 20rem;
-    height: 20rem;
+    width: 20vw;
+    height: auto; 
     border: 0px; 
     margin-left: auto;
     margin-right: auto; 
@@ -43,24 +66,24 @@ img#current-track {
     justify-content: center;
     text-align: center; 
 }
+
+
 .container {
     display: grid;
     width: 100%;
     height: 100%;
-    /* margin-top: 10px;
-    margin-bottom: 10px; */
-    /* align-items: center; */
 }
 
 
 
 #main_container { 
-    /* margin-top: 20px; */
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 10vh 1fr;
     height: 100%;
     width: 100%;
+    max-height: 100vh;
+    padding-bottom: 5vh;
 }
 
 #spotify_components { 
@@ -68,19 +91,15 @@ img#current-track {
     text-align: center;
     height: 100%;
     width: 100%;
-    /* margin-top: 5em; */
     grid-row-start: 2;
     grid-template-columns: 1fr;
-    grid-template-rows: 7vh 1fr 1/2fr 1fr;
-    /* align-items: center; */
-    /* justify-content: center; */
+    grid-template-rows: 7vh 1fr 10vh 10vh;
 }
 
 .spotify_player { 
     grid-row-start: 1;
     align-items: center;
     text-align: center;
-    /* margin-top: 1em; */
     justify-content: center;
     vertical-align: center;
 }
@@ -88,7 +107,6 @@ img#current-track {
 #logged_in { 
     height: 100%;
     width: 100%;
-    /* margin: auto; */
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -97,7 +115,7 @@ img#current-track {
 }
 
 img { 
-    display: block;
+    /* display: block; */
     width: 50px;
     height: 50px;
     border: none;
@@ -107,16 +125,15 @@ img {
     justify-content: center;
     text-align: center;
     
-    /* grid-row-start: 1; */
 
 }
 
 #playing_controls { 
     display: grid;
-    /* grid-template-columns: repeat(5, minmax(30px, 1fr)); */
     align-items: center;
+    align-self: center;
+    justify-self: center;
     text-align: center;
-    /* margin: auto;  */
     justify-content: center;
 }
 
@@ -125,7 +142,7 @@ img {
     align-items: center;
     text-align: center;
     align-items: center;
-
+    align-self: center;
 }
 
 
@@ -134,11 +151,13 @@ img {
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
     height: 100%;
+    max-height: 50px;
     width: 100%;
     text-align: center;
     align-items: center;
     justify-content: center;
     grid-row-start: 3;
+
 } 
 
 #repeat_buttons {
@@ -153,12 +172,9 @@ img {
     place-items: center;
 } 
 
-/* Buttons */
 
 button { 
-    position: relative;
-    /* width: 15em; */
-    /* padding: 10px 20px;  */
+    /* position: relative; Do not have this enabled. This is what was making buttons move to right*/
     text-align: center; 
     justify-content: center; 
 }
@@ -179,7 +195,7 @@ button {
 }
 
 .spotify_controls { 
-    /* left: 25%; */
+    left: 25%;
     background-color: transparent;
     width: fit-content;
     height: fit-content;

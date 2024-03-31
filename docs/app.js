@@ -16,6 +16,7 @@ play pause or rewind. or manually seeking. So it won't auto repeat.
 /* Credit goes to luukdv for the color aspect of this code. https://github.com/luukdv/color.js/ */
 
 import { drawCanvas } from './canvas.js';
+import { addTrackToDataBase, addRepeatToDataBase, getRepeatData, getTrackData } from './firebase_deal.js';
 
 // This function will be called when the tab is closed or the user logs out
 export function cleanupPlayer() {
@@ -63,11 +64,10 @@ export function playerFunction(accessToken) {
             if (!state) { return; } 
             
         });
-        startCallbackInterval();
+        // startCallbackInterval();
         
     });
 
-    // Not Ready
     player.addListener('not_ready', ({ device_id }) => {
         console.log('Device ID has gone offline', device_id);
     });
@@ -84,17 +84,21 @@ export function playerFunction(accessToken) {
         console.error(message);
     });
 
+    player.addListener('player_state_changed', imageManipulation);
 
     //Document handling
+
     document.getElementById('repeat_on').onclick = function() {
         // startCallbackInterval();
         localStorage.setItem('repeat', 'on');
+        addRepeatToDataBase({repeat: 'on'});
     };
 
     document.getElementById('repeat_off').onclick = function() {
         // clearInterval(intervalId);
         intervalId = null;
         localStorage.setItem('repeat', 'off');
+        addRepeatToDataBase({repeat: 'off'});
     }
 
     document.getElementById('togglePlay').onclick = function() {
@@ -107,24 +111,27 @@ export function playerFunction(accessToken) {
     }
 
     document.getElementById('rewind').onclick = function() {
-        if(localStorage.getItem('repeat') == 'off') {
-            player.previousTrack();
-        }
-
-        else if (localStorage.getItem('repeat') == 'on') { 
-            localStorage.setItem('repeat', 'off');
-            stopCallbackInterval();
-            for (let i = 0; i < 2; i++) {
-                setTimeout(() => {
-                    player.previousTrack();
-                }, 350 * i);
+        getRepeatData().then(result => {
+            // You can use result here
+            let repeat_value = result.repeat;
+            if(repeat_value == 'off') {
+                player.previousTrack();
             }
-            setTimeout(() => {
-                localStorage.setItem('repeat', 'on');
-                startCallbackInterval();
-            }, 350);
+            else if (repeat_value == 'on') {
+                addRepeatToDataBase({repeat: 'off'});
+                stopCallbackInterval();
+                for (let i = 0; i < 2; i++) {
+                    setTimeout(() => {
+                        player.previousTrack();
+                    }, 350 * i);
+                }
+                setTimeout(() => {
+                    addRepeatToDataBase({repeat: 'on'});  
+                    startCallbackInterval();
+                }, 350);
 
-        }
+            }
+        });
         
     }
 
@@ -139,19 +146,41 @@ export function playerFunction(accessToken) {
                 end_time: endTime
             };
             localStorage.setItem(trackId, JSON.stringify(trackData));
+            const new_track = {
+                    repeat: JSON.stringify(trackData),
+                    trackId: trackId,
+                    trackName: state.track_window.current_track.name,
+            }
+            addTrackToDataBase(new_track);
         });
     }
 
+    // FUNCTIONS
+
     function trackSetElements() { 
         let trackId = cur_song;
-        let trackData = JSON.parse(localStorage.getItem(trackId));
-        if(trackData) {
-            document.getElementById('start_time').value = trackData.start_time;
-            document.getElementById('end_time').value = trackData.end_time;
-        }
+        getTrackDataSpotify(trackId).then(trackData => {
+            if(trackData) {
+                let parsedTrackData = JSON.parse(trackData.repeat);
+                document.getElementById('start_time').value = parsedTrackData.start_time;
+                document.getElementById('end_time').value = parsedTrackData.end_time;
+            }
+        });
     }
 
-    player.addListener('player_state_changed', imageManipulation);
+    async function getTrackDataSpotify(trackId) {
+        const allTrackData = await getTrackData();
+        const thisTrackDict = allTrackData[trackId];
+        if(thisTrackDict) {
+            return thisTrackDict;
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    
 
     function imageManipulation(state) {
         const images = ['images/pause_button.png', 'images/play_button2.png']
@@ -205,15 +234,43 @@ export function playerFunction(accessToken) {
         start_sec += start_min*60;
         end_sec += end_min*60;
         let currentPosition = state.position / 1000;
-        if(localStorage.getItem('repeat') == 'on') {
-            if(currentPosition < start_sec || currentPosition > end_sec) {
-                player.seek(start_sec*1000);
+        getRepeatData().then(result => {
+            let repeat_value = result.repeat;
+            if(repeat_value == 'on') { 
+                if(currentPosition < start_sec || currentPosition > end_sec) {
+                    player.seek(start_sec*1000);
+                }
             }
-        }
-       
-
+        });
     }
+
+    setInterval(getPlaybackInfoForSlider, 1000);
     
+    function getPlaybackInfoForSlider() { 
+        player.getCurrentState().then(state => {
+            if (!state) {
+                console.error('User is not playing music through the Web Playback SDK');
+                return;
+            }
+            let slider = document.getElementById('audio-slider');
+            let curTime = document.getElementById('current-time');
+            let durTime = document.getElementById('duration-time');
+            let duration = state.duration;
+            let durationInSeconds = Math.floor(duration / 1000);
+            let position = state.position;
+            slider.max = durationInSeconds;
+            slider.value = Math.floor(position / 1000);
+            curTime.textContent = formatTime(Math.floor(position / 1000));
+            durTime.textContent = formatTime(durationInSeconds);
+
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+
+        });
+    }
 
     player.connect();
 
